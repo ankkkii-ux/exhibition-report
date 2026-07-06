@@ -6,18 +6,20 @@
     <title>电子报告阅读</title>
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #333; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* 针对 iOS 和现代移动浏览器的完美嵌入容器 */
+        .pdf-container { width: 100%; height: 100%; border: none; -webkit-overflow-scrolling: touch; overflow-y: scroll; }
+        object, embed { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-    <!-- 使用公用 PDF.js 预览器，动态获取当前网站下的 report.pdf -->
-    <iframe id="pdf-viewer" src=""></iframe>
 
-    <script>
-        // 自动获取当前部署后的绝对域名，拼接给 PDF.js 预览器，彻底解决手机端打不开的问题
-        const currentHost = window.location.origin;
-        const pdfUrl = currentHost + '/report.pdf';
-        document.getElementById('pdf-viewer').src = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodeURIComponent(pdfUrl);
-    </script>
+    <div class="pdf-container">
+        <!-- 优先使用标准的 object 标签加载同域下的 PDF，彻底杜绝跨域问题 -->
+        <object data="./report.pdf" type="application/pdf">
+            <!-- 如果部分极老旧手机不支持 object，则自动降级使用 embed 标签 -->
+            <embed src="./report.pdf" type="application/pdf" />
+        </object>
+    </div>
+
 </body>
 </html>
