@@ -14,11 +14,10 @@
     <iframe id="pdf-viewer" src=""></iframe>
 
     <script>
-    const currentHost = window.location.origin;
-    const pdfUrl = currentHost + '/report.pdf';
-    
-    // 改用微软官方的预览服务接口
-    document.getElementById('pdf-viewer').src = 'https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(pdfUrl);
-</script>
+        // 自动获取当前部署后的绝对域名，拼接给 PDF.js 预览器，彻底解决手机端打不开的问题
+        const currentHost = window.location.origin;
+        const pdfUrl = currentHost + '/report.pdf';
+        document.getElementById('pdf-viewer').src = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodeURIComponent(pdfUrl);
+    </script>
 </body>
 </html>
